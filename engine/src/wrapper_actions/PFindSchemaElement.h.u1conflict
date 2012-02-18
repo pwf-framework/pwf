@@ -1,0 +1,55 @@
+#ifndef TFINDSCHEMAELEMENT_H
+#define TFINDSCHEMAELEMENT_H
+
+/**
+  \class TFindSchemaElement
+  \brief Given a number of possible alternatives, emit a status success with the valid schema element for the
+         given wrapper, status failure otherwise.
+
+  This class is actually used as a tree of action groups, each path from the root to a leaf being
+  an alternative for the given schema element.
+  Each tree node can contains both another instances of this class or a number of
+  require parser, but not mixed. The first type of nodes represents a schema <switch> (switch action), while
+  the second a <case> (case action).
+  The case action must have the success schema element, e.g the schema element that is valid if all the requires are
+  evaluated succesfully.
+  The switch action could only have the shared schema element, e.g the schema element that is valid if all
+  its child case actions fail, if it's not specified, the action will just emit a status failure.
+*/
+
+#include "TActionGroup.h"
+#include "TSchemaElement.h"
+#include <QString>
+
+class TWrapper;
+
+class TFindSchemaElement : public TActionGroup
+{
+    Q_OBJECT
+
+public:
+    /** @param fountainMode if it's true, the search goes by alternating normal searches in the siblings
+        and checks (for the element) on the parent, i.e. visiting the tree like an incremental fountain's jet.
+        If the root node is reached without having found the element, the search continues in the parent schema,
+        continuing to going up until possible or needed.
+        This mode is tipically used when we want to find the element that is referenced by the start element */
+    TFindSchemaElement(TWrapper *wrapper, TSchemaElement start, const QString &elementType,
+                       const QString &elementName="", bool fountainMode=false, QObject *parent=NULL);
+    TWrapper *wrapper();
+    TSchemaElement ancestor();
+    QString elementType();
+    QString elementName();
+    void setSuccessSchemaElement(TSchemaElement schemaElement);
+    void setSharedSchemaElement(TSchemaElement schemaElement);
+    void start();
+    /** @return NULL if not exists. */
+    TSchemaElement validSchemaElement() const;
+
+signals:
+    void found(TSchemaElement);
+
+private: /* Members */
+
+};
+
+#endif // TFINDSCHEMAELEMENT_H

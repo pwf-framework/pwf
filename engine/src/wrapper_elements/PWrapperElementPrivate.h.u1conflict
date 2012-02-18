@@ -1,0 +1,15 @@
+#ifndef TWRAPPERELEMENTPRIVATE_H
+#define TWRAPPERELEMENTPRIVATE_H
+
+class TWrapperElement;
+
+class TWrapperElementPrivate
+{
+public:
+    TWrapperElementPrivate(TWrapperElement *_q);
+
+public:
+    TWrapperElement *q;
+};
+
+#endif // TWRAPPERELEMENTPRIVATE_H

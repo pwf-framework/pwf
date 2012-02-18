@@ -1,0 +1,8 @@
+PWF stands for "Polymorphic Wrappers Factory" and is a framework for creating, executing and managing web wrappers.
+
+A wrapper has a schema that matches a class of sites and/or web pages, for this it's called "polymorphic", in fact, schemas are generical and, to some extent, they remain valid even if the site/page template changes.
+
+The framework is divided into three parts:
+- SCHEMA: the grammar of the wrapper schemas. See schema/docs/ for detailed information about schemas and how they work.
+- ENGINE: the library for using wrappers in your applications.
+- UTILITIES: tools for visually creating and validating schemas, etc.
