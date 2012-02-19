@@ -64,12 +64,12 @@ PWrapper * PWrapper::parentWrapper()
     return d->m_parent;
 }
 
-PWrapperElement * PWrapper::rootElement()
+PWrapperElement * PWrapper::rootElement() const
 {
     return d->m_rootElement;
 }
 
-bool PWrapper::setName(QString wrapperName)
+bool PWrapper::setName(const QString &wrapperName)
 {
     // Prevent illegal names
     QRegExp dirPattern(_namePattern);
@@ -87,7 +87,7 @@ QString PWrapper::name() const
 }
 
 // TODO: sanitize input!!!!
-void PWrapper::setUrl(QString url)
+void PWrapper::setUrl(const QString &url)
 {
     d->m_url = PWrapperPrivate::fixUrl(url);
 }

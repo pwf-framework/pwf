@@ -80,7 +80,7 @@ bool PSchema::setDocument(const QString &fileName)
     return true;
 }
 
-bool PSchema::isNull()
+bool PSchema::isNull() const
 {
     return d->m_document.isNull();
 }

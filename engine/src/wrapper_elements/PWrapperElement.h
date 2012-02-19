@@ -30,7 +30,7 @@ public:
     PWrapperElement(PWrapper *wrapper, PWrapperElement &parent, const QString &elementType, const QString &elementName);
     ~PWrapperElement();
     PWrapper *wrapper() const;
-    PWrapperElement *parentElement();
+    PWrapperElement *parentElement() const;
     PSchemaElement schema() const;
     /** @return the element name. */
     QString name() const;

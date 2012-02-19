@@ -16,6 +16,8 @@ public:
 private slots:
     void testScriptEngine();
     void testEngine();
+    void testWrapper();
+    void testSiteWrapper();
 
 private: /* Members */
     PEngine *engine;

@@ -43,7 +43,7 @@ public:
         @note the element will be the document root. */
     bool setDocument(const QString &fileName);
     //virtual bool isValid();
-    bool isNull();
+    bool isNull() const;
     /** @return the directory of the schema. */
     QString directory() const;
     /** Set the schema name. */

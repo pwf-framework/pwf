@@ -33,7 +33,7 @@ class PWrapperPrivate
 public:
     PWrapperPrivate(PWrapper *_q);
     /** Uniformize the url to the pattern http(s)://www.sitename.com/path/ */
-    static QString &fixUrl(QString &m_url);
+    static QString &fixUrl(const QString &m_url);
 
 public: /* Members */
     PEngine *m_eng;

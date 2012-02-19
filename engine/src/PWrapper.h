@@ -48,8 +48,7 @@ class PWrapperElement;
 class TEvalWrapperData;
 
 /** The pattern for all the names (schema, cache, etc.) */
-const QString _namePattern = "[a-z0-9 -!@#$%^()]+"; // TODO: check case sensitivity (A-Z).
-                                                    //       disallow names with only spaces!!!
+const QString _namePattern = "[a-zA-Z0-9_\\-!@#$%^()]+"; // TODO: disallow names with only spaces!!!
 
 class PWFENGINESHARED_EXPORT PWrapper : public QObject
 {   
@@ -61,14 +60,14 @@ public:
     virtual ~PWrapper();
     PEngine *engine() const;
     PWrapper *parentWrapper();
-    /** The name must match the pattern [a-z0-9 -!@#$%^()]+
+    /** The name must match the pattern [a-zA-Z0-9_\\-!@#$%^()]+
         @return false if the name is an illegal string. */
-    bool setName(QString wrapperName);
+    bool setName(const QString &wrapperName);
     QString name() const;
     /** Set the wrapper target url
         \warning The current schema might become invalid, immediately call detectSchema() or setSchema() if you are not sure or
                  if you are setting the wrapper url for the first time. */
-    void setUrl(QString url);
+    void setUrl(const QString &url);
     /** Return the wrapper target url */
     QString url() const;
     /** Set the directory where are located all the wrapper schemas. Overwrite the directory setted in the PEngine.
@@ -99,7 +98,7 @@ public:
     TEvalWrapperData *evalData(const QString &name);
 protected:
     /** @return the root wrapper element, i.e. the element with the whole wrapper schema as its schema. */
-    PWrapperElement *rootElement();
+    PWrapperElement *rootElement() const;
     /** Return a list containing the names of the schemas that must be checked by the detectSchema() method. */
     virtual QList<QString> schemaCandidateNames() = 0;
     /** @return the cache filename for this wrapper.
