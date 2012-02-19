@@ -22,12 +22,13 @@
 
 /**
   \class PActionGroup
-  \brief A group of PAction that operate simultaneously. The class is a PAction itself.
+  \brief A group of actions that operate simultaneously. Note: the class is an action itself.
 
-  The class provides methods for managing group of PAction, allowing to specify when finish: on success or failure of
-  an action or never, waiting that all the actions have finished.
-  When the PActionGroup is stopped or finish, all its (active) PAction are stopped too.
-  Each PAction object is automatically deleted when it finishes.
+  The class provides methods for managing a group of actions, allowing to specify when finish: on success or failure of
+  an action or never, waiting that all the actions have finished. @see setSingleStatusToStop()
+
+  When the action group is stopped or finish, all its (active) actions are stopped too.
+  Each action is automatically deleted when it finishes.
 
   The actions can be added with the addAction() method. The start() method will in turn execute all the added actions.
 */
@@ -44,19 +45,21 @@ class PWFENGINESHARED_EXPORT PActionGroup : public PAction
 public:
     PActionGroup(QObject *parent = 0);
     ~PActionGroup();
-    /** Note: this object become parent of the action */
+    /** @note the group become parent of the action */
     void addAction(PAction *action);
-    /** Set when to emit the finished signals and with which status
-        @param singleStatus the type of the finished status of one PAction needed to stop. StatusNone means never stop prematurely
-        @param groupStatus the finished status when the prematurely stop occurs
+    /** Sets when to emit the finished signals and with which status
+        @param singleStatus the finished status, that, if emitted by just one action,
+               will leads to the prematurely group finish.
+        @param groupStatus the finished status of the group to use if the premature finish occurs
     */
     void setSingleStatusToStop(const PAction::StatusType &singleStatus, const PAction::StatusType &groupStatus);
-    /** @return the number of added PAction that have not finished yet */
+    /** @return the number of added actions that have not finished yet */
     int remainingActions() const;
 private slots:
-    /** Decrease the number of remaining PAction and check if the group has finished:
-        if all the PAction have finished => finish with the opposite of the status needed to stop  (StatusSuccess => StatusFailure,
-        StatusFailure => StatusSuccess, StatusNone => StatusNone) */
+    /** Decreases the number of the remaining actions and check if the conditions
+        to prematurely stop took place, if not:
+        if all the actions have finished => finish with the opposite of the status needed to stop
+        (StatusSuccess => StatusFailure, StatusFailure => StatusSuccess, StatusNone => StatusNone) */
     void updateOnActionFinished(PAction *action);
 
 private:

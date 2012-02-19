@@ -56,7 +56,7 @@ PAction::StatusType PAction::finishedStatus() const
     return d->m_finishedStatus;
 }
 
-void PAction::finish(const PAction::StatusType &status, const bool &asyncSignal)
+void PAction::finish(const PAction::StatusType &status, const bool &asyncSignals)
 {
     if (d->m_hasFinished) {
         // avoid to overwrite the finished status and to double emit the finished signal
@@ -66,7 +66,7 @@ void PAction::finish(const PAction::StatusType &status, const bool &asyncSignal)
     d->m_finishedStatus = status;
     d->m_hasFinished = true;
 
-    if (asyncSignal) {
+    if (asyncSignals) {
         d->m_finishedTimer.start();
     } else {
         emitFinished();

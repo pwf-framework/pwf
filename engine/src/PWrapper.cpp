@@ -103,7 +103,7 @@ QString PWrapper::url() const
 void PWrapper::setSchemaCandidatesDirectory(const QString &directoryPath)
 {
     // Note: remove the last / if exists
-    d->m_schemaCandidatesDirectory = PEnginePrivate::removeFinalSlash(directoryPath);
+    d->m_schemaCandidatesDirectory = PEnginePrivate::fixDirectory(directoryPath);
 }
 
 QString PWrapper::schemaCandidatesDirectory()

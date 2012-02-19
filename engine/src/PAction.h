@@ -24,14 +24,15 @@
   \class PAction
   \brief Implements the command-pattern design technique for asynchronous operations. NOTE: The action is disposable.
 
-  The action can be started with the start() method, stopped with stop() that will asynchronously finish
-  with the StatusNone status.
-  Anyway, the finished signals are emitted when the action finishes.
+  The action can be started with start() and asynchronously stopped with stop().
+  Once the action has been started, it'll perform its job and will emits the finished signal when has finished, along
+  with the success or failure signals if the action has successfully finished or if has failed, respectively.
 
+  If the action is stopped, it will finish with the StatusNone status.
   If still active, the action will be automatically stopped at destruction time.
 
-  \warning If you subclass PAction, remember to call the parent method as the first statement in the overrided start()
-  and stop() methods to assure right behaviour.
+  \warning when subclassing PAction, remember to call the parent method as the first statement in the overrided start()
+  and stop() to ensure right behaviour.
 */
 
 #include "pwfengine_global.h"
@@ -44,49 +45,50 @@ class PWFENGINESHARED_EXPORT PAction : public QObject
     Q_OBJECT
 
 public: enum StatusType {
-    /** Means that the action has finished succesfully. */
+    /** The action has finished succesfully. */
     StatusSuccess,
-    /** Means that the action has failed. */
+    /** The action has failed. */
     StatusFailure,
     /** The initial value. The action finishes with this status if it has been stopped by the user or
-        for some other reasons. */
+        for some other reason. */
     StatusNone
 };
 
 public:
     PAction(QObject *parent = 0);
     virtual ~PAction();
+    /** The action finished status. */
     PAction::StatusType finishedStatus() const;
-    /** @return true if the PAction has finished or is about to finish (the timer is running) */
+    /** @return true if the action has finished or is about to finish (in case of an asynchronous finish) */
     bool hasFinished() const;
 public slots:
-    /** Start the execution of the action and immediately emit the started signal. */
+    /** Starts the execution of the action and immediately emits the started signal. */
     virtual void start();
-    /** Stop the execution of the action, asynchronously finishing with a StatusNone status. */
+    /** Stops the execution of the action, asynchronously finishing with a StatusNone status. */
     virtual void stop();
 protected slots:
     /** \note calling this method if the action has already finished has no effect.
-        @param asyncSignal if true asynchronously emit the finished signals, allowing listeners to connect even if them
-               are emitted before the object is returned to the handler */
-    void finish(const PAction::StatusType &status, const bool &asyncSignal=false);
+        @param asyncSignals if true asynchronously emits the finished signals, allowing a receiver to connect
+               even if the method is called before the object is returned to it. */
+    void finish(const PAction::StatusType &status, const bool &asyncSignals=false);
 private slots:
-    /** Emit the finished and success/failure signals */
+    /** Emits the finished and success/failure signals */
     void emitFinished();
-    /** Set the error from another action */
+    ///** Set the error from another action */
     //void setError(PAction *action);
-    /** Directly set the error */
+    ///** Directly set the error */
     //void setError(QString &error);
 
 signals:
     void started();
     void finished(PAction *action);
-    /** The signal be connected to a finish slot of another action */
+    /** The signal that could be connected to the finish slot of another action */
     void finished(PAction::StatusType finishedStatus);
     void success(PAction *action);
-    /** The signal be connected to a finish slot of another action */
+    /** The signal that could be connected to the finish slot of another action */
     void success(PAction::StatusType successStatus);
     void failure(PAction *action);
-    /** The signal be connected to a finished slot of another action */
+    /** The signal that could be connected to a finished slot of another action */
     void failure(PAction::StatusType failureStatus);
 
 private:

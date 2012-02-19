@@ -18,7 +18,6 @@
 */
 
 #include "PActionPrivate.h"
-#include <QTimer>
 
 PActionPrivate::PActionPrivate(PAction *_q)
 {

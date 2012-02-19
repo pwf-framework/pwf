@@ -55,12 +55,12 @@ public:
     QNetworkAccessManager *network() const;
     /** The script engine shared among all the wrappers */
     QScriptEngine *scriptEngine() const;
-    /** Set the root directory where are located all the wrapper schemas.
-        @note the final / is removed */
+    /** Sets the root directory where are located all the wrapper schemas.
+        @note the final / is removed (if it's not the only character) */
     void setSchemaCandidatesDirectory(const QString &directoryPath);
     /** @see setSchemaCandidatesDirectory */
     QString schemaCandidatesDirectory() const;
-    /** Set the cache directory, shared by all sites unless otherwise specified.
+    /** Sets the cache directory, shared by all sites unless otherwise specified.
         @note: the final / is removed  */
     void setCacheDirectory(const QString &directoryPath);
     /** @see setCacheDirectory */

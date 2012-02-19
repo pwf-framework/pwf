@@ -68,16 +68,17 @@ void PActionGroup::updateOnActionFinished(PAction *action)
     // Check if the group has finished
     if (d->m_singleStatusToStop != StatusNone) { // there is the possibility to prematurely stop
         if (actionStatus == d->m_singleStatusToStop) {
+            // prematurely stop
             finish(d->m_groupStatusWhenStop);
         } else if (d->m_remainingActions == 0) {
-            // all the PAction have finished with a status different from the one needed to stop
+            // all the actions have finished with a status different from the one needed to stop
             // => finish with the opposite of the status needed to stop
             PAction::StatusType finishedStatus = (d->m_singleStatusToStop == StatusSuccess) ? StatusFailure :
                                                                                             StatusSuccess;
             finish(finishedStatus);
         }
     } else if (d->m_remainingActions == 0) {
-        // there is not the possibility to prematurely stop but all the PAction have finished
+        // there is not the possibility to prematurely stop but all the actions have finished
         finish(StatusNone);
     }
 }

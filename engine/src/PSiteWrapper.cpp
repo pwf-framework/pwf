@@ -95,6 +95,6 @@ QList<QString> PSiteWrapper::schemaCandidateNames()
 //  strange (anti security) characters.
 QString PSiteWrapper::cacheFileName()
 {
-    return PEnginePrivate::removeFinalSlash(PWrapper::engine()->cacheDirectory())
+    return PEnginePrivate::fixDirectory(PWrapper::engine()->cacheDirectory())
             + "/" + name() + "/" + _siteCacheRelativeFileName;
 }

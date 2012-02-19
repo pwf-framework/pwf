@@ -21,7 +21,6 @@
 #define PACTIONPRIVATE_H
 
 #include "PAction.h"
-#include <QString>
 #include <QTimer>
 
 class PActionPrivate
@@ -32,7 +31,7 @@ public:
 public: /* Members */
     PAction::StatusType m_finishedStatus;
     bool m_hasFinished;
-    /** The single shot timer that emit the finished signal, making it asynchronous */
+    /** The single shot timer that emits the finished signals, making them asynchronous */
     QTimer m_finishedTimer;
 
 public:

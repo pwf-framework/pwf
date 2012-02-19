@@ -44,6 +44,8 @@ class PAction;
 class PWFENGINESHARED_EXPORT PPageWrapper : public PWrapper
 {
 public:
+    /** The siteWrapper must have a valid schema or the execution will be halted.
+        The default schema candidate directory will be the directory of the siteWrapper current schema. */
     PPageWrapper(PEngine *engine, PSiteWrapper *siteWrapper);
     ~PPageWrapper();
     /** @return the filename as schemaCandidatesDirectory()/pageschema_schemaName.xml

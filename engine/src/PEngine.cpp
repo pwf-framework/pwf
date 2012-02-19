@@ -50,7 +50,7 @@ QScriptEngine *PEngine::scriptEngine() const
 void PEngine::setSchemaCandidatesDirectory(const QString &directoryPath)
 {
     // Note: remove the last / if exists
-    d->m_schemaCandidatesDirectory = PEnginePrivate::removeFinalSlash(directoryPath);
+    d->m_schemaCandidatesDirectory = PEnginePrivate::fixDirectory(directoryPath);
 }
 
 QString PEngine::schemaCandidatesDirectory() const
@@ -62,7 +62,7 @@ QString PEngine::schemaCandidatesDirectory() const
 void PEngine::setCacheDirectory(const QString &directoryPath)
 {
     // Note: remove the last / if exists
-    d->m_cacheDirectory = PEnginePrivate::removeFinalSlash(directoryPath);
+    d->m_cacheDirectory = PEnginePrivate::fixDirectory(directoryPath);
 }
 
 QString PEngine::cacheDirectory() const
