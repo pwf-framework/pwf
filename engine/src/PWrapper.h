@@ -67,14 +67,18 @@ public:
     /** Set the wrapper target url
         \warning The current schema might become invalid, immediately call detectSchema() or setSchema() if you are not sure or
                  if you are setting the wrapper url for the first time. */
+    // TODO: sanitize input!!!!
     void setUrl(const QString &url);
     /** Return the wrapper target url */
     QString url() const;
     /** Set the directory where are located all the wrapper schemas. Overwrite the directory setted in the PEngine.
-        Note: the final / is removed  */
+        @note the path is cleaned by using QDir::cleanPath()
+        @warning always use the "/" separator, example: "c:/foo/bar" OK, "c:\foo\bar" NO.  */
+    // TODO: sanitize input!!!!
     void setSchemaCandidatesDirectory(const QString &directoryPath);
     /** @return if not null, the directory setted by the setSchemaCandidatesDirectory() or, otherwise,
         the engine schemas directory */
+    // TODO: save engine directory as default member and overwite if needed, instead of checking for null
     QString schemaCandidatesDirectory();
     /** Set the wrapper schema specifying its name (e.g. phpbb3). The library will in turn locate the file.
         This is the only method the user can use to 'directly' set the wrapper schema, this allow to set only schemas

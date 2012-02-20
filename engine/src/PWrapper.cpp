@@ -28,6 +28,7 @@
 #include "PAttemptSchema.h"
 #include "PEnginePrivate.h" // for the static function removeFinalSlash
 #include <QRegExp>
+#include <QDir>
 
 // _namePattern defined in PWrapper.h
 
@@ -86,7 +87,6 @@ QString PWrapper::name() const
     return d->m_name;
 }
 
-// TODO: sanitize input!!!!
 void PWrapper::setUrl(const QString &url)
 {
     d->m_url = PWrapperPrivate::fixUrl(url);
@@ -99,11 +99,10 @@ QString PWrapper::url() const
 }
 
 
-// TODO: sanitize input!!!!
 void PWrapper::setSchemaCandidatesDirectory(const QString &directoryPath)
 {
     // Note: remove the last / if exists
-    d->m_schemaCandidatesDirectory = PEnginePrivate::fixDirectory(directoryPath);
+    d->m_schemaCandidatesDirectory = QDir::cleanPath(directoryPath);
 }
 
 QString PWrapper::schemaCandidatesDirectory()

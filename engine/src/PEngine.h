@@ -56,12 +56,16 @@ public:
     /** The script engine shared among all the wrappers */
     QScriptEngine *scriptEngine() const;
     /** Sets the root directory where are located all the wrapper schemas.
-        @note the final / is removed (if it's not the only character) */
+        @note the path is cleaned by using QDir::cleanPath()
+        @warning always use the "/" separator, example: "c:/foo/bar" OK, "c:\foo\bar" NO. */
+    // TODO: sanitize input!!!!
     void setSchemaCandidatesDirectory(const QString &directoryPath);
     /** @see setSchemaCandidatesDirectory */
+    // TODO: what to do with symbolic links? (apply also to cacheDirectory())
     QString schemaCandidatesDirectory() const;
     /** Sets the cache directory, shared by all sites unless otherwise specified.
-        @note: the final / is removed  */
+        @note the path is cleaned by using QDir::cleanPath()
+        @warning always use the "/" separator, example: "c:/foo/bar" OK, "c:\foo\bar" NO.*/
     void setCacheDirectory(const QString &directoryPath);
     /** @see setCacheDirectory */
     QString cacheDirectory() const;

@@ -22,6 +22,7 @@
 #include <QNetworkAccessManager>
 #include <QScriptEngine>
 #include <QString>
+#include <QDir>
 
 PEngine::PEngine()
 {
@@ -46,11 +47,9 @@ QScriptEngine *PEngine::scriptEngine() const
     return d->m_scriptEng;
 }
 
-// TODO: sanitize input!!!!
 void PEngine::setSchemaCandidatesDirectory(const QString &directoryPath)
 {
-    // Note: remove the last / if exists
-    d->m_schemaCandidatesDirectory = PEnginePrivate::fixDirectory(directoryPath);
+    d->m_schemaCandidatesDirectory = QDir::cleanPath(directoryPath);
 }
 
 QString PEngine::schemaCandidatesDirectory() const
@@ -62,7 +61,7 @@ QString PEngine::schemaCandidatesDirectory() const
 void PEngine::setCacheDirectory(const QString &directoryPath)
 {
     // Note: remove the last / if exists
-    d->m_cacheDirectory = PEnginePrivate::fixDirectory(directoryPath);
+    d->m_cacheDirectory = QDir::cleanPath(directoryPath);
 }
 
 QString PEngine::cacheDirectory() const

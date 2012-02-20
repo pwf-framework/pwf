@@ -30,9 +30,6 @@ class PEnginePrivate
 {
 public:
     PEnginePrivate(PEngine *_q);
-    /** Remove duplicate slashes and the final slash if it's not the only character
-        e.g. "///some//foo// => /some/foo" but "/" => "/" */
-    static QString fixDirectory(const QString &target);
 
 public: /* Members */
     QNetworkAccessManager *m_net;

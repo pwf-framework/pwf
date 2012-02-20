@@ -35,6 +35,8 @@ PPageWrapper::PPageWrapper(PEngine *engine, PSiteWrapper *siteWrapper) : PWrappe
     d = new PPageWrapperPrivate(this);
 
     d->m_siteWrapper = siteWrapper;
+
+    // set default schema directory
     QString siteWrapperSchemaDirectory = siteWrapper->schemaDirectory(siteWrapper->schemaName());
     if (siteWrapperSchemaDirectory.isEmpty()) {
         qFatal("PPageWrapper(): the site wrapper does not have a correct schema name or directory");

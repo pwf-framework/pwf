@@ -25,17 +25,3 @@ PEnginePrivate::PEnginePrivate(PEngine *_q)
 {
     q = _q;
 }
-
-QString PEnginePrivate::fixDirectory(const QString &target)
-{
-    QString fixed = target;
-
-    // remove multiple slashes
-    fixed.replace(QRegExp("/+"), "/");
-    // remove the final slash if it's not the only character
-    if (fixed.endsWith("/") && fixed != "/") {
-        fixed = fixed.left(fixed.length()-1);
-    }
-
-    return fixed;
-}

@@ -47,6 +47,11 @@ void Test::testEngine()
     // multiple "/" in the string should have been removed
     engine->setSchemaCandidatesDirectory("some///foo////bar///");
     QCOMPARE(engine->schemaCandidatesDirectory(), QString("some/foo/bar"));
+    // BUG: allow windows root
+    engine->setSchemaCandidatesDirectory("c:\\\\test\\");
+    QCOMPARE(engine->schemaCandidatesDirectory(), QString("c:\\test"));
+    engine->setSchemaCandidatesDirectory("c://test/");
+    QCOMPARE(engine->schemaCandidatesDirectory(), QString("c:/test"));
 }
 
 void Test::testWrapper()
@@ -72,6 +77,13 @@ void Test::testWrapper()
     // don't allow a name with spaces
     result = siteWrapper->setName(" ");
     QCOMPARE(result, false);
+    // no empty name
+    result = siteWrapper->setName("");
+    QCOMPARE(result, false);
+    result = siteWrapper->setName("09239");
+    QCOMPARE(result, true);
+    result = siteWrapper->setName("232ad23");
+    QCOMPARE(result, true);
 }
 
 void Test::testSiteWrapper()
