@@ -89,6 +89,8 @@ void Test::testWrapper()
     // be accepted)
     result = siteWrapper->setUrl("invalidurl");
     QCOMPARE(result, false);
+
+    // schema candidates directory
 }
 
 void Test::testSiteWrapper()

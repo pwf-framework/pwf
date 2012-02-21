@@ -23,6 +23,7 @@
 #include <QList>
 #include "PWrapperRequire.h"
 #include "PEvalWrapperRequire.h"
+#include "PActionGroup.h"
 
 PAttemptSchema::PAttemptSchema(const QString &schemaName, PWrapper *wrapper, PWrapperCache *wrapperCache)
     : PAction(wrapper)

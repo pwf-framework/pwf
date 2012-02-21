@@ -31,6 +31,7 @@
 */
 
 // TODO: controllare d->m_siteWrapper e vedere se si può sostituire direttamente con parentWrapper()
+// TODO: gestione dell'url
 
 #include "pwfengine_global.h"
 #include "PWrapper.h"
@@ -45,12 +46,13 @@ class PWFENGINESHARED_EXPORT PPageWrapper : public PWrapper
 {
 public:
     /** The siteWrapper must have a valid schema or the execution will be halted.
-        The default schema candidate directory will be the directory of the siteWrapper current schema. */
+        The default schema candidates directory will be the directory of the siteWrapper current schema. */
+    // TODO: and what to do if the site schema candidates directory changes? maybe use an approach like that of TWrapper
     // TODO: to allow page wrappers without a site wrapper?
     PPageWrapper(PEngine *engine, PSiteWrapper *siteWrapper);
     ~PPageWrapper();
     /** @return the filename as schemaCandidatesDirectory()/pageschema_schemaName.xml
-                or an empty string if the schema is not valid. */
+        @return a null string if the schema is not valid. */
     QString schemaFileName(const QString &schemaName);
     bool map();
     /** Return the mapped root element  */

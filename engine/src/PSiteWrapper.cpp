@@ -55,6 +55,7 @@ bool PSiteWrapper::setUrl(const QString &url)
 void PSiteWrapper::addPageWrapper(PPageWrapper *pageWrapper)
 {
     if (pageWrapper == 0) { return; }
+
     // check if the page wrapper already exists
     for (int i=0; i<d->m_pageWrappers.length(); i++) {
         if (d->m_pageWrappers.at(i) == pageWrapper) { return; }
@@ -63,12 +64,23 @@ void PSiteWrapper::addPageWrapper(PPageWrapper *pageWrapper)
     d->m_pageWrappers.append(pageWrapper);
 }
 
+void PSiteWrapper::removePageWrapper(PPageWrapper *pageWrapper)
+{
+    if (pageWrapper == 0) { return; }
+
+    for (int i=0; i<d->m_pageWrappers.length(); i++) {
+        if (d->m_pageWrappers.at(i) == pageWrapper) {
+            d->m_pageWrappers.removeAt(i);
+        }
+    }
+}
+
 QString PSiteWrapper::schemaFileName(const QString &schemaName)
 {
     QString schemaDir = schemaDirectory(schemaName);
     if (schemaDir.isEmpty()) {
         // invalid schema name or directory
-        return "";
+        return QString();
     }
 
     return schemaDir + "/" + _siteSchemaRelativeFileName;
@@ -77,8 +89,7 @@ QString PSiteWrapper::schemaFileName(const QString &schemaName)
 QString PSiteWrapper::schemaDirectory(const QString &schemaName)
 {
     // Disallow illegal characters for the schema name
-    QRegExp dirPattern(_namePattern);
-    if (!dirPattern.exactMatch(schemaName)) {
+    if (!PWrapper::isValidName(schemaName)) {
         return "";
     }
 

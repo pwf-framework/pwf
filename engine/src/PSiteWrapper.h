@@ -46,12 +46,16 @@ public:
     bool setUrl(const QString &url);
     /** Append the pageWrapper to the list if not already exists. */
     void addPageWrapper(PPageWrapper *pageWrapper);
-    /** Given a schema name, return the directory of the schema as schemaCandidatesDirectory()/schemaName/.
-        If the schema name is not valid, return an empty string.
-        Note: the final / is removed */
+    /** @return the directory of the schema as schemaCandidatesDirectory()/schemaName/
+        @return a null string if the schema name is not valid
+        @note: the final / is removed */
     QString schemaDirectory(const QString &schemaName);
-    /** @return the filename as schemaDirectory()/siteschema.xml */
+    /** @return the filename as schemaDirectory()/siteschema.xml
+        @return a null string if the schema is not valid.*/
     QString schemaFileName(const QString &schemaName);
+public slots:
+    /** Remove the pageWrapper from the list if exists */
+    void removePageWrapper(PPageWrapper *pageWrapper);
 protected:
     /** Loop through each subdirectory in the schemaCandidatesDirectory() looking for a valid
         site wrapper schema, appending it to the returned list when found. */

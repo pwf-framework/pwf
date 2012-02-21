@@ -34,6 +34,9 @@ PPageWrapper::PPageWrapper(PEngine *engine, PSiteWrapper *siteWrapper) : PWrappe
 {
     d = new PPageWrapperPrivate(this);
 
+    if (siteWrapper == NULL) {
+        qFatal("PPageWrapper: the site wrapper can't be NULL.");
+    }
     d->m_siteWrapper = siteWrapper;
 
     // set default schema directory
@@ -52,6 +55,8 @@ PPageWrapper::PPageWrapper(PEngine *engine, PSiteWrapper *siteWrapper) : PWrappe
 
 PPageWrapper::~PPageWrapper()
 {
+    d->m_siteWrapper->removePageWrapper(this);
+
     delete d;
 }
 
@@ -60,7 +65,7 @@ QString PPageWrapper::schemaFileName(const QString &schemaName)
     // Disallow illegal characters for the schema name
     QRegExp dirPattern(_namePattern);
     if (!dirPattern.exactMatch(schemaName)) {
-        return "";
+        return QString();
     }
 
     return schemaCandidatesDirectory() + "/" + _pageSchemaPrefix + schemaName + ".xml";

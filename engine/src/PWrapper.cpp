@@ -31,14 +31,15 @@
 #include <QDir>
 #include <QUrl>
 
-// _namePattern defined in PWrapper.h
+/** The pattern for all the names (schema, cache, etc.) used in isValidName() */
+const QString _namePattern = "[a-zA-Z0-9_\\-!@#$%^()]+";
 
 PWrapper::PWrapper(PEngine *engine, PWrapper *parent)
     : QObject(parent)
 {
     if (engine == 0) {
         // fatal error
-        qFatal("Please specify a valid PEngine for the wrapper");
+        qFatal("PWrapper(): please specify a valid engine for the wrapper");
         return;
     }
 
@@ -46,6 +47,7 @@ PWrapper::PWrapper(PEngine *engine, PWrapper *parent)
 
     d->m_eng = engine;
     d->m_parent = parent;
+    d->m_schemaCandidatesDirectory = QString(); // null string (isNull() returns true)
     d->m_schema = 0;
     d->m_rootElement = 0;
     d->m_detectSchemaIsRunning = false;
@@ -53,6 +55,8 @@ PWrapper::PWrapper(PEngine *engine, PWrapper *parent)
 
 PWrapper::~PWrapper()
 {
+    delete d->m_schema;
+
     delete d;
 }
 
@@ -74,8 +78,7 @@ PWrapperElement * PWrapper::rootElement() const
 bool PWrapper::setName(const QString &wrapperName)
 {
     // Prevent illegal names
-    QRegExp dirPattern(_namePattern);
-    if (!dirPattern.exactMatch(wrapperName)) {
+    if (!isValidName(wrapperName)) {
         return false;
     }
 
@@ -86,6 +89,12 @@ bool PWrapper::setName(const QString &wrapperName)
 QString PWrapper::name() const
 {
     return d->m_name;
+}
+
+bool PWrapper::isValidName(const QString &name)
+{
+    QRegExp dirPattern(_namePattern);
+    return dirPattern.exactMatch(name);
 }
 
 bool PWrapper::setUrl(const QString &url)
@@ -111,6 +120,8 @@ void PWrapper::setSchemaCandidatesDirectory(const QString &directoryPath)
     d->m_schemaCandidatesDirectory = QDir::cleanPath(directoryPath);
 }
 
+// The engine schema candidates directory is not saved as a member on construction because in this way we can
+// obtain the updated directory if the user change it in the engine.
 QString PWrapper::schemaCandidatesDirectory()
 {
     return (d->m_schemaCandidatesDirectory.isNull()) ? d->m_eng->schemaCandidatesDirectory()
@@ -120,7 +131,8 @@ QString PWrapper::schemaCandidatesDirectory()
 PAction *PWrapper::setSchema(const QString &schemaName)
 {  
     PAttemptSchema *attemptSchema = new PAttemptSchema(schemaName, this, d->m_cache);
-    // in case of failure the schema will be deleted automatically by the action
+    // note: in case of failure the schema will be deleted automatically by the action
+
     connect(attemptSchema, SIGNAL(success(PAction*)), this, SLOT(finalizeSchema(PAction*)));
     attemptSchema->start();
     return attemptSchema;
@@ -140,7 +152,8 @@ void PWrapper::finalizeSchema(PAction *action)
     if (d->m_rootElement != 0) {
         d->m_rootElement->deleteLater();
     }
-    // the parent of the root element is the parent wrapper root element, or NULL if this is the top level wrapper.
+    // the parent of the root element is the root element of the parent wrapper,
+    // or NULL if this is the top level wrapper.
     PWrapperElement *parentElement = (parentWrapper() != 0) ? parentWrapper()->rootElement() : 0;
     d->m_rootElement = new PWrapperElement(this, parentElement, *(d->m_schema));
 }
