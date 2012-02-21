@@ -29,8 +29,3 @@ PWrapperPrivate::PWrapperPrivate(PWrapper *_q)
 {
     q = _q;
 }
-
-QString &PWrapperPrivate::fixUrl(const QString &url)
-{
-
-}

@@ -48,7 +48,7 @@ class PWrapperElement;
 class TEvalWrapperData;
 
 /** The pattern for all the names (schema, cache, etc.) */
-const QString _namePattern = "[a-zA-Z0-9_\\-!@#$%^()]+"; // TODO: disallow names with only spaces!!!
+const QString _namePattern = "[a-zA-Z0-9_\\-!@#$%^()]+";
 
 class PWFENGINESHARED_EXPORT PWrapper : public QObject
 {   
@@ -59,16 +59,18 @@ public:
     PWrapper(PEngine *engine, PWrapper *parent);
     virtual ~PWrapper();
     PEngine *engine() const;
+    /** @return the parent wrapper, or NULL if this is a top level wrapper. */
     PWrapper *parentWrapper();
-    /** The name must match the pattern [a-zA-Z0-9_\\-!@#$%^()]+
+    /** The name can contains only alphanumeric characters and the special characters _-!@#$%^()
         @return false if the name is an illegal string. */
     bool setName(const QString &wrapperName);
     QString name() const;
     /** Set the wrapper target url
+        @param url the url in an encoded format,
         \warning The current schema might become invalid, immediately call detectSchema() or setSchema() if you are not sure or
-                 if you are setting the wrapper url for the first time. */
-    // TODO: sanitize input!!!!
-    void setUrl(const QString &url);
+                 if you are setting the wrapper url for the first time.
+        @return true if the url is valid. */
+    bool setUrl(const QString &url);
     /** Return the wrapper target url */
     QString url() const;
     /** Set the directory where are located all the wrapper schemas. Overwrite the directory setted in the PEngine.
@@ -89,7 +91,7 @@ public:
     PAction *setSchema(const QString &schemaName);
     /** Automatically detect a valid schema for this wrapper by checking all the schema names returned by the schemaCandidateNames()
         method.
-        \warning Calling this method if there is already another detect running has no effect. */
+        @note Calling this method if there is already another detect running has no effect. */
     PAction *detectSchema();
     PSchema *schema() const;
     /** @return the active schema name or an empty string if it has not yet been set */

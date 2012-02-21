@@ -67,6 +67,10 @@ void Test::testWrapper()
     result = siteWrapper->setName("myWrapper");
     QCOMPARE(result, true);
     QCOMPARE(siteWrapper->name(), QString("myWrapper"));
+    result = siteWrapper->setName("09239");
+    QCOMPARE(result, true);
+    result = siteWrapper->setName("232ad23");
+    QCOMPARE(result, true);
 
     // test: don't allow for illegal characters in the name
     qDebug("\ntesting illegal characters in the name: '../../../../'");
@@ -80,10 +84,11 @@ void Test::testWrapper()
     // no empty name
     result = siteWrapper->setName("");
     QCOMPARE(result, false);
-    result = siteWrapper->setName("09239");
-    QCOMPARE(result, true);
-    result = siteWrapper->setName("232ad23");
-    QCOMPARE(result, true);
+
+    // invalid urls should not be accepted (note: this is a sitewrapper, so only http://www.sitename.com/ urls will
+    // be accepted)
+    result = siteWrapper->setUrl("invalidurl");
+    QCOMPARE(result, false);
 }
 
 void Test::testSiteWrapper()

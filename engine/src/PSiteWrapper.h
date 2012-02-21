@@ -40,6 +40,10 @@ public:
     /** @note The site wrapper is a top level wrapper, i.e. its parent is NULL. */
     PSiteWrapper(PEngine *engine);
     ~PSiteWrapper();
+    /** @param url the site url, in a format like http://www.sitename.com/
+        @return true if url is valid. */
+    // TODO: check if url matches the site format
+    bool setUrl(const QString &url);
     /** Append the pageWrapper to the list if not already exists. */
     void addPageWrapper(PPageWrapper *pageWrapper);
     /** Given a schema name, return the directory of the schema as schemaCandidatesDirectory()/schemaName/.

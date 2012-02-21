@@ -30,6 +30,8 @@ class PSiteWrapperPrivate
 {
 public:
     PSiteWrapperPrivate(PSiteWrapper *_q);
+    /** Uniformize the url to the pattern http(s)://www.sitename.com/path/ */
+    static QString &fixUrl(const QString &m_url);
 
 public: /* Members */
     QList<PPageWrapper*> m_pageWrappers;

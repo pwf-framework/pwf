@@ -25,3 +25,8 @@ PSiteWrapperPrivate::PSiteWrapperPrivate(PSiteWrapper *_q)
 {
     q = _q;
 }
+
+QString & PSiteWrapperPrivate::fixUrl(const QString &m_url)
+{
+    // STUB
+}

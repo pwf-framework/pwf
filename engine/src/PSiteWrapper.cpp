@@ -42,6 +42,16 @@ PSiteWrapper::~PSiteWrapper()
     delete d;
 }
 
+bool PSiteWrapper::setUrl(const QString &url)
+{
+    // TODO: check if url matches the site format
+    if (true /* STUB */) {
+        return PWrapper::setUrl(PSiteWrapperPrivate::fixUrl(url));
+    }
+
+    return false;
+}
+
 void PSiteWrapper::addPageWrapper(PPageWrapper *pageWrapper)
 {
     if (pageWrapper == 0) { return; }

@@ -29,6 +29,7 @@
 #include "PEnginePrivate.h" // for the static function removeFinalSlash
 #include <QRegExp>
 #include <QDir>
+#include <QUrl>
 
 // _namePattern defined in PWrapper.h
 
@@ -87,9 +88,14 @@ QString PWrapper::name() const
     return d->m_name;
 }
 
-void PWrapper::setUrl(const QString &url)
+bool PWrapper::setUrl(const QString &url)
 {
-    d->m_url = PWrapperPrivate::fixUrl(url);
+    if (QUrl(d->m_url).isValid()) {
+        d->m_url = url;
+        return true;
+    }
+
+    return false;
 }
 
 
