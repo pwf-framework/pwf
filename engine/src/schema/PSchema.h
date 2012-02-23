@@ -20,13 +20,6 @@
 #ifndef PSCHEMA_H
 #define PSCHEMA_H
 
-/**
-  \class PSchema
-  \brief The schema of a PWrapper.
-
-  The root element of the schema document.
-*/
-
 #include "pwfengine_global.h"
 #include "PSchemaElement.h"
 
@@ -35,23 +28,17 @@ class PSchemaPrivate;
 class PWFENGINESHARED_EXPORT PSchema : public PSchemaElement
 {
 public:
-    /** The PSchemaPrivate is searched in the PEngine and used if found, otherwise a new one will be
-        created. */
     PSchema(const QString &name);
     ~PSchema();
-    /** @param fileName the document filename
-        @note the element will be the document root. */
-    bool setDocument(const QString &fileName);
-    //virtual bool isValid();
-    bool isNull() const;
-    /** @return the directory of the schema. */
-    QString directory() const;
-    /** Set the schema name. */
     void setName(const QString &name);
-    /** @return the schema name. */
     QString name() const;
 
-private:
+    bool isNull() const;
+    bool setDocument(const QString &fileName);
+    //virtual bool isValid();
+    QString directory() const;
+
+private: /* Members */
     friend class PSchemaPrivate;
     PSchemaPrivate *d;
 };

@@ -54,7 +54,7 @@ bool PSiteWrapper::setUrl(const QString &url)
 
 void PSiteWrapper::addPageWrapper(PPageWrapper *pageWrapper)
 {
-    if (pageWrapper == 0) { return; }
+    if (pageWrapper == NULL) { return; }
 
     // check if the page wrapper already exists
     for (int i=0; i<d->m_pageWrappers.length(); i++) {
@@ -66,7 +66,7 @@ void PSiteWrapper::addPageWrapper(PPageWrapper *pageWrapper)
 
 void PSiteWrapper::removePageWrapper(PPageWrapper *pageWrapper)
 {
-    if (pageWrapper == 0) { return; }
+    if (pageWrapper == NULL) { return; }
 
     for (int i=0; i<d->m_pageWrappers.length(); i++) {
         if (d->m_pageWrappers.at(i) == pageWrapper) {

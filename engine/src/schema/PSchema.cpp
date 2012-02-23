@@ -17,18 +17,29 @@
     along with pwfengine.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+  \class PSchema
+  \brief The schema of a PWrapper.
+
+  The root element of the schema document.
+*/
+
 #include "PSchema.h"
 #include "PSchemaPrivate.h"
 #include <QFile>
 #include <QDomDocument>
 
+
+/** The PSchemaPrivate is searched in the PEngine and used if found, otherwise a new one will be
+    created.
+*/
 PSchema::PSchema(const QString &name)
 {
     // TODO: set the private (d) for this name to the one saved on PEngine, if exists.
 
     d = new PSchemaPrivate(this);
 
-    d->m_name = name;
+    setName(name);
 }
 
 PSchema::~PSchema()
@@ -36,6 +47,28 @@ PSchema::~PSchema()
     delete d;
 }
 
+/** Set the schema name. */
+void PSchema::setName(const QString &name)
+{
+    d->m_name = name;
+}
+
+/** @return the schema name. */
+QString PSchema::name() const
+{
+    return d->m_name;
+}
+
+/** @return true if no valid document has been set */
+bool PSchema::isNull() const
+{
+    return d->m_document.isNull();
+}
+
+/** @param fileName the document filename
+    @note the element will be the document root.
+    @return true if the document has been successfully loaded.
+*/
 bool PSchema::setDocument(const QString &fileName)
 {
     QFile schemaFile(fileName);
@@ -80,22 +113,8 @@ bool PSchema::setDocument(const QString &fileName)
     return true;
 }
 
-bool PSchema::isNull() const
-{
-    return d->m_document.isNull();
-}
-
+/** @return the directory of the schema. */
 QString PSchema::directory() const
 {
     return d->m_directory;
-}
-
-void PSchema::setName(const QString &name)
-{
-    d->m_name = name;
-}
-
-QString PSchema::name() const
-{
-    return d->m_name;
 }

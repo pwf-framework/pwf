@@ -31,7 +31,7 @@ PAttemptSchema::PAttemptSchema(const QString &schemaName, PWrapper *wrapper, PWr
     m_schemaName = schemaName;
     m_wrapper = wrapper;
     m_wrapperCache = wrapperCache;
-    m_schema = 0;
+    m_schema = NULL;
 }
 
 PAttemptSchema::~PAttemptSchema()
@@ -53,7 +53,7 @@ void PAttemptSchema::start()
     }
 
     // Create the new schema
-    if (m_schema != 0) {
+    if (m_schema != NULL) {
         // The action has been reused (not intended usage, but one must deal with it)
         delete m_schema;
     }

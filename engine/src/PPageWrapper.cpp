@@ -47,7 +47,7 @@ PPageWrapper::PPageWrapper(PEngine *engine, PSiteWrapper *siteWrapper) : PWrappe
     }
     setSchemaCandidatesDirectory(siteWrapperSchemaDirectory);
 
-    d->m_cTags = 0;
+    d->m_cTags = NULL;
 
     // add the page wrapper to the site wrapper
     d->m_siteWrapper->addPageWrapper(this);
@@ -63,8 +63,7 @@ PPageWrapper::~PPageWrapper()
 QString PPageWrapper::schemaFileName(const QString &schemaName)
 {
     // Disallow illegal characters for the schema name
-    QRegExp dirPattern(_namePattern);
-    if (!dirPattern.exactMatch(schemaName)) {
+    if (!PWrapper::isValidName(schemaName)) {
         return QString();
     }
 
