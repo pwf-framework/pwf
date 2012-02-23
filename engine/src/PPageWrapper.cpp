@@ -17,19 +17,33 @@
     along with pwfengine.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+  \class PPageWrapper
+  \brief A website page wrapper.
+
+  A page wrapper must refer to a site wrapper with a valid schema.
+  The schema candidates directory is automatically setted to the site wrapper active schema directory.
+
+  @see setPageName
+*/
+
 #include "PPageWrapper.h"
 #include "PPageWrapperPrivate.h"
 #include "PEngine.h"
 #include "PSiteWrapper.h"
 #include "PPageElement.h"
 #include "PAction.h"
-#include <QRegExp>
 #include <QDir>
 
 const QString _pageSchemaPrefix = "pageschema_";
 const QString _pageCachePrefix = "pagecache_";
 // _namePattern defined in PWrapper.h
 
+/** The siteWrapper must have a valid schema or the execution will be halted.
+    The default schema candidates directory will be the directory of the siteWrapper current schema.
+*/
+// TODO: and what to do if the site schema candidates directory changes? maybe use an approach like that of TWrapper
+// TODO: to allow page wrappers without a site wrapper?
 PPageWrapper::PPageWrapper(PEngine *engine, PSiteWrapper *siteWrapper) : PWrapper(engine, siteWrapper)
 {
     d = new PPageWrapperPrivate(this);
@@ -60,6 +74,9 @@ PPageWrapper::~PPageWrapper()
     delete d;
 }
 
+/** @return the filename as schemaCandidatesDirectory()/pageschema_schemaName.xml
+    @return a null string if the schema is not valid.
+*/
 QString PPageWrapper::schemaFileName(const QString &schemaName)
 {
     // Disallow illegal characters for the schema name
@@ -70,6 +87,7 @@ QString PPageWrapper::schemaFileName(const QString &schemaName)
     return schemaCandidatesDirectory() + "/" + _pageSchemaPrefix + schemaName + ".xml";
 }
 
+/** Append to the list each page wrapper schema in the schemaCandidatesDirectory() */
 QList<QString> PPageWrapper::schemaCandidateNames()
 {
     QList<QString> candidates;
@@ -80,6 +98,7 @@ QList<QString> PPageWrapper::schemaCandidateNames()
     return candidates;
 }
 
+/** @return the filename as engine->cacheDirectory()/siteWrapper->name()/pagecache_name().xml */
 QString PPageWrapper::cacheFileName()
 {
     return PWrapper::engine()->cacheDirectory() + "/" + d->m_siteWrapper->name() + "/"

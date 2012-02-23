@@ -20,11 +20,6 @@
 #ifndef PSCHEMAELEMENT_H
 #define PSCHEMAELEMENT_H
 
-/**
-  \class PSchemaElement
-  \brief An explicity shared element of a schema.
-*/
-
 #include "pwfengine_global.h"
 #include <QExplicitlySharedDataPointer>
 #include <QDomElement>
@@ -38,29 +33,21 @@ public:
     PSchemaElement(const QDomElement &schemaElement = QDomElement());
     PSchemaElement(const PSchemaElement &other);
     ~PSchemaElement();
-    // test this
-    PSchemaElement & operator =(const PSchemaElement &other);
-    /** Set the schema element and check its validity. */
+    PSchemaElement & operator =(const PSchemaElement &other); // test this
     bool setSchemaElement(const QDomElement &schemaElement);
+
     virtual bool isValid();
     bool isNull() const;
     bool isReference() const;
-    /** @return the type of the schema element, e.g. data, search, etc. */
+
     QString type() const;
-    /** @return the name of the schema element, i.e. the value of the attribute "name". */
     QString name() const;
-    /** @return the attribute of the element */
     QString attribute(const QString &attributeName) const;
-    /** @return the specified direct child of this element, a null element if not exists.
-        @param elementType the element type, e.g. search or data
-        @param elementName the element name, e.g foo */
     PSchemaElement directChild(const QString &elementType, const QString &elementName="") const;
     QList<PSchemaElement> switches() const;
     QList<PSchemaElement> cases() const;
     QList<PSchemaElement> requires() const;
-    /** Each PSchemaElement has an unique ID setted when the schema is created.
-        The id can be used as an index for storing data about the schema element in other classes. */
-    //int id();
+
 protected:
     QDomElement schemaElement() const;
 

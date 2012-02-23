@@ -20,23 +20,6 @@
 #ifndef PWRAPPERCACHE_H
 #define PWRAPPERCACHE_H
 
-/**
-  \class PWrapperCache
-  \brief A private class that offers the cache system for a given wrapper.
-
-  Each element is cached by storing its parsed value together with the hashed string representation of its schema,
-  this last used to retrieve the value later.
-*/
-/* TODO: gestire il path alla cartella dove ci sono tutti i file di cache. Chi li setta, questa classe o il wrapper?
-         RISPOSTA: il wrapper, in quanto c'è una cache per ogni wrapper, quindi ad es. una per il sito e tante per
-                   le singole pagine ed ognuna salva in un file diverso; è il tipo di wrapper che gestisce la path
-                   ed il suo formato, questa classe è solo il documento xml, allo stesso modo per il PSchema.
-   TODO: impostare cache di livello più alto, infatti se ad es. chiedo un dato alla cache di una pagina,
-         questa la cercherà al suo interno, se però non c'è, allora deve richiederla alla cache del sito.
-         Ho un collegamento diretto alla cache padre e non ci passo tramite il wrapper in quanto la cache è una classe
-         privata che non compare nell'interfaccia pubblica.
-*/
-
 #include <QDomDocument>
 #include "PSchemaElement.h"
 

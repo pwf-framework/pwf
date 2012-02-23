@@ -26,6 +26,7 @@ PSiteWrapperPrivate::PSiteWrapperPrivate(PSiteWrapper *_q)
     q = _q;
 }
 
+/** Uniformize the url to the pattern http(s)://www.sitename.com/path/ */
 QString & PSiteWrapperPrivate::fixUrl(const QString &m_url)
 {
     // STUB

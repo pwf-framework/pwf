@@ -32,7 +32,6 @@ public:
     PSchemaElementPrivate(PSchemaElement *_q);
     PSchemaElementPrivate(const PSchemaElementPrivate &other);
     ~PSchemaElementPrivate();
-    /** @return a list with the direct childs of from. */
     static QList<PSchemaElement> directChildsList(const QDomElement &from, const QString &elementType,
                                                   const QString &elementName="");
 

@@ -29,7 +29,6 @@ class PSchemaPrivate
 {
 public:
     PSchemaPrivate(PSchema *_q);
-    /** Note: this method operates on the document */
     bool parseIncludeNodes();
 
 public:

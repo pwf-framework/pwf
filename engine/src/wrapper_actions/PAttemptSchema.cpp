@@ -17,6 +17,16 @@
     along with pwfengine.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+  \class PAttemptSchema
+  \brief The action creates a new schema given its name and check its validity for the given wrapper.
+
+  It's duty of the user to take and delete the schema if the action succeded, otherwise, if the action has failed or
+  has been stopped, the schema will deleted at destruction time.
+  \note if the action has been already used and is started again, then the old schema is intended as useless and will
+  be destructed.
+*/
+
 #include "PAttemptSchema.h"
 #include "PWrapper.h"
 #include "PSchema.h"
@@ -25,6 +35,7 @@
 #include "PEvalWrapperRequire.h"
 #include "PActionGroup.h"
 
+/** @note the wrapper becomes the parent of this object. */
 PAttemptSchema::PAttemptSchema(const QString &schemaName, PWrapper *wrapper, PWrapperCache *wrapperCache)
     : PAction(wrapper)
 {
@@ -34,6 +45,7 @@ PAttemptSchema::PAttemptSchema(const QString &schemaName, PWrapper *wrapper, PWr
     m_schema = NULL;
 }
 
+/** Delete the schema if the attempt has not succeded. */
 PAttemptSchema::~PAttemptSchema()
 {
     if (finishedStatus() != PAction::StatusSuccess) {
@@ -41,6 +53,7 @@ PAttemptSchema::~PAttemptSchema()
     }
 }
 
+/** @warning the method deletes the old schema if exists. */
 void PAttemptSchema::start()
 {
     PAction::start();

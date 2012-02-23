@@ -17,6 +17,19 @@
     along with pwfengine.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+  \class PActionGroup
+  \brief A group of actions that operate simultaneously. Note: the class is an action itself.
+
+  The class provides methods for managing a group of actions, allowing to specify when finish: on success or failure of
+  an action or never, waiting that all the actions have finished. @see setSingleStatusToStop()
+
+  When the action group is stopped or finish, all its (active) actions are stopped too.
+  Each action is automatically deleted when it finishes.
+
+  The actions can be added with the addAction() method. The start() method will in turn execute all the added actions.
+*/
+
 #include "PActionGroup.h"
 #include "PActionGroupPrivate.h"
 
@@ -35,6 +48,7 @@ PActionGroup::~PActionGroup()
     delete d;
 }
 
+/** @note the group become parent of the action */
 void PActionGroup::addAction(PAction *action)
 {
     // start the action when the group starts
@@ -49,17 +63,27 @@ void PActionGroup::addAction(PAction *action)
     d->m_remainingActions++;
 }
 
+/** Sets when to emit the finished signals and with which status
+    @param singleStatus the finished status, that, if emitted by just one action,
+           will leads to the prematurely group finish.
+    @param groupStatus the finished status of the group to use if the premature finish occurs
+*/
 void PActionGroup::setSingleStatusToStop(const PAction::StatusType &singleStatus, const PAction::StatusType &groupStatus)
 {
     d->m_singleStatusToStop = singleStatus;
     d->m_groupStatusWhenStop = groupStatus;
 }
 
+/** @return the number of added actions that have not finished yet */
 int PActionGroup::remainingActions() const
 {
     return d->m_remainingActions;
 }
 
+/** Decreases the number of the remaining actions and check if the conditions
+    to prematurely stop took place, if not:
+    if all the actions have finished => finish with the opposite of the status needed to stop
+    (StatusSuccess => StatusFailure, StatusFailure => StatusSuccess, StatusNone => StatusNone) */
 void PActionGroup::updateOnActionFinished(PAction *action)
 {
     d->m_remainingActions--;

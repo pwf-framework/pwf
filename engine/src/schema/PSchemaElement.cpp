@@ -17,6 +17,11 @@
     along with pwfengine.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+  \class PSchemaElement
+  \brief An explicity shared element of a schema.
+*/
+
 #include "PSchemaElement.h"
 #include "PSchemaElementPrivate.h"
 
@@ -44,6 +49,7 @@ PSchemaElement & PSchemaElement::operator =(const PSchemaElement &other)
     d = other.d;
 }
 
+/** Set the schema element and check its validity. */
 bool PSchemaElement::setSchemaElement(const QDomElement &schemaElement)
 {
     d->m_schemaElement = schemaElement;
@@ -76,22 +82,29 @@ bool PSchemaElement::isReference() const
     return (d->m_schemaElement.attribute("ref") == "true");
 }
 
+/** @return the type of the schema element, e.g. data, search, etc. */
 QString PSchemaElement::type() const
 {
     /** Example: an element <foo>...</foo> will return foo */
     return d->m_schemaElement.tagName();
 }
 
+/** @return the name of the schema element, i.e. the value of the attribute "name". */
 QString PSchemaElement::name() const
 {
     return attribute("name");
 }
 
+/** @return the attribute of the element */
 QString PSchemaElement::attribute(const QString &attributeName) const
 {    
     return d->m_schemaElement.attribute(attributeName);
 }
 
+/** @return the specified direct child of this element, a null element if not exists.
+    @param elementType the element type, e.g. search or data
+    @param elementName the element name, e.g foo
+*/
 PSchemaElement PSchemaElement::directChild(const QString &elementType, const QString &elementName) const
 {
     for (QDomElement el = d->m_schemaElement.firstChildElement(elementType);

@@ -17,6 +17,11 @@
     along with pwfengine.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+  \class PEvalWrapperRequire
+  \brief Eval a wrapper require to get its value.
+*/
+
 #include "PEvalWrapperRequire.h"
 #include "PWrapperPrivate.h"
 

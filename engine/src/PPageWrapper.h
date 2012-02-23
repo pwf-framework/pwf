@@ -20,16 +20,6 @@
 #ifndef PPAGEWRAPPER_H
 #define PPAGEWRAPPER_H
 
-/**
-  \class PPageWrapper
-  \brief A website page wrapper.
-
-  A page wrapper must refer to a site wrapper with a valid schema.
-  The schema candidates directory is automatically setted to the site wrapper active schema directory.
-
-  @see setPageName
-*/
-
 // TODO: controllare d->m_siteWrapper e vedere se si può sostituire direttamente con parentWrapper()
 // TODO: gestione dell'url
 
@@ -45,26 +35,23 @@ class PAction;
 class PWFENGINESHARED_EXPORT PPageWrapper : public PWrapper
 {
 public:
-    /** The siteWrapper must have a valid schema or the execution will be halted.
-        The default schema candidates directory will be the directory of the siteWrapper current schema. */
-    // TODO: and what to do if the site schema candidates directory changes? maybe use an approach like that of TWrapper
-    // TODO: to allow page wrappers without a site wrapper?
     PPageWrapper(PEngine *engine, PSiteWrapper *siteWrapper);
     ~PPageWrapper();
-    /** @return the filename as schemaCandidatesDirectory()/pageschema_schemaName.xml
-        @return a null string if the schema is not valid. */
+
     QString schemaFileName(const QString &schemaName);
+
     bool map();
     /** Return the mapped root element  */
     PPageElement *mappedPage();
     /** Redownload the page. The method can be used when fresh data is needed,
         i.e when the page content might have been changed. */
     void refresh();
+
 protected:
-    /** Append to the list each page wrapper schema in the schemaCandidatesDirectory() */
     QList<QString> schemaCandidateNames();
-    /** @return the filename as engine->cacheDirectory()/siteWrapper->name()/pagecache_name().xml */
+
     QString cacheFileName();
+
     //QString parseParametricVariable(const QString &variable);
 
 private:

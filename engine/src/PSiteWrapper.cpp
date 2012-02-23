@@ -17,13 +17,17 @@
     along with pwfengine.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+  \class PSiteWrapper
+  \brief A website wrapper.
+*/
+
 #include "PSiteWrapper.h"
 #include "PSiteWrapperPrivate.h"
 #include "PEngine.h"
 #include "PPageWrapper.h"
 #include <QString>
 #include <QDir>
-#include <QRegExp>
 #include "PAction.h"
 #include "PActionGroup.h"
 #include "PEnginePrivate.h" // for the static function removeFinalSlash
@@ -32,6 +36,7 @@ const QString _siteSchemaRelativeFileName = "siteschema.xml";
 const QString _siteCacheRelativeFileName = "sitecache.xml";
 // _namePattern defined in PWrapper.h
 
+/** @note The site wrapper is a top level wrapper, i.e. its parent is NULL. */
 PSiteWrapper::PSiteWrapper(PEngine *engine) : PWrapper(engine, NULL)
 {
     d = new PSiteWrapperPrivate(this);
@@ -42,6 +47,10 @@ PSiteWrapper::~PSiteWrapper()
     delete d;
 }
 
+/** @param url the site url, in a format like http://www.sitename.com/
+    @return true if url is valid.
+ */
+// TODO: check if url matches the site format
 bool PSiteWrapper::setUrl(const QString &url)
 {
     // TODO: check if url matches the site format
@@ -52,6 +61,7 @@ bool PSiteWrapper::setUrl(const QString &url)
     return false;
 }
 
+/** Append the pageWrapper to the list if not already exists. */
 void PSiteWrapper::addPageWrapper(PPageWrapper *pageWrapper)
 {
     if (pageWrapper == NULL) { return; }
@@ -64,6 +74,7 @@ void PSiteWrapper::addPageWrapper(PPageWrapper *pageWrapper)
     d->m_pageWrappers.append(pageWrapper);
 }
 
+/** Remove the pageWrapper from the list if exists */
 void PSiteWrapper::removePageWrapper(PPageWrapper *pageWrapper)
 {
     if (pageWrapper == NULL) { return; }
@@ -75,6 +86,8 @@ void PSiteWrapper::removePageWrapper(PPageWrapper *pageWrapper)
     }
 }
 
+/** @return the filename as schemaDirectory()/siteschema.xml
+    @return a null string if the schema is not valid.*/
 QString PSiteWrapper::schemaFileName(const QString &schemaName)
 {
     QString schemaDir = schemaDirectory(schemaName);
@@ -86,6 +99,10 @@ QString PSiteWrapper::schemaFileName(const QString &schemaName)
     return schemaDir + "/" + _siteSchemaRelativeFileName;
 }
 
+/** @return the directory of the schema as schemaCandidatesDirectory()/schemaName/
+    @return a null string if the schema name is not valid
+    @note: the final / is removed
+*/
 QString PSiteWrapper::schemaDirectory(const QString &schemaName)
 {
     // Disallow illegal characters for the schema name
@@ -102,6 +119,8 @@ QString PSiteWrapper::schemaDirectory(const QString &schemaName)
     return fileName;
 }
 
+/** Loop through each subdirectory in the schemaCandidatesDirectory() looking for a valid
+    site wrapper schema, appending it to the returned list when found. */
 QList<QString> PSiteWrapper::schemaCandidateNames()
 {
     QList<QString> candidates;
@@ -112,6 +131,7 @@ QList<QString> PSiteWrapper::schemaCandidateNames()
     return candidates;
 }
 
+/** @return the filename as engine->cacheDirectory()/name()/sitecache.xml */
 //  Note: Assumes that the url and other filename components have already been checked for illegal or
 //  strange (anti security) characters.
 QString PSiteWrapper::cacheFileName()

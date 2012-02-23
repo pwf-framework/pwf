@@ -20,11 +20,6 @@
 #ifndef PEVALWRAPPERREQUIRE_H
 #define PEVALWRAPPERREQUIRE_H
 
-/**
-  \class PEvalWrapperRequire
-  \brief Eval a wrapper require to get its value.
-*/
-
 #include "PAction.h"
 #include "PWrapperRequire.h"
 
@@ -32,7 +27,8 @@ class PEvalWrapperRequire : public PAction
 {
 public:
     PEvalWrapperRequire(PWrapperRequire *require);
-    /** \note get the require value from the cache, if exists. */
+
+public slots:
     virtual void start();
 
 private: /* Members */

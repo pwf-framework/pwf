@@ -24,6 +24,7 @@ PSchemaPrivate::PSchemaPrivate(PSchema *_q)
     q = _q;
 }
 
+/** @note this method operates on the document */
 bool PSchemaPrivate::parseIncludeNodes()
 {
     return true; // dummy
