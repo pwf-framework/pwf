@@ -34,7 +34,7 @@
 
 const QString _siteSchemaRelativeFileName = "siteschema.xml";
 const QString _siteCacheRelativeFileName = "sitecache.xml";
-// _namePattern defined in PWrapper.h
+const QString _siteUrlPattern = ""; // STUB (format: https://www.sitename.com/dir1/.../dirN/)
 
 /** @note The site wrapper is a top level wrapper, i.e. its parent is NULL. */
 PSiteWrapper::PSiteWrapper(PEngine *engine) : PWrapper(engine, NULL)
@@ -86,19 +86,6 @@ void PSiteWrapper::removePageWrapper(PPageWrapper *pageWrapper)
     }
 }
 
-/** @return the filename as schemaDirectory()/siteschema.xml
-    @return a null string if the schema is not valid.*/
-QString PSiteWrapper::schemaFileName(const QString &schemaName)
-{
-    QString schemaDir = schemaDirectory(schemaName);
-    if (schemaDir.isEmpty()) {
-        // invalid schema name or directory
-        return QString();
-    }
-
-    return schemaDir + "/" + _siteSchemaRelativeFileName;
-}
-
 /** @return the directory of the schema as schemaCandidatesDirectory()/schemaName/
     @return a null string if the schema name is not valid
     @note: the final / is removed
@@ -119,7 +106,20 @@ QString PSiteWrapper::schemaDirectory(const QString &schemaName)
     return fileName;
 }
 
-/** Loop through each subdirectory in the schemaCandidatesDirectory() looking for a valid
+/** @return the filename as schemaDirectory()/siteschema.xml
+    @return a null string if the schema is not valid.*/
+QString PSiteWrapper::schemaFileName(const QString &schemaName)
+{
+    QString schemaDir = schemaDirectory(schemaName);
+    if (schemaDir.isNull()) {
+        // invalid schema name or directory
+        return QString();
+    }
+
+    return schemaDir + "/" + _siteSchemaRelativeFileName;
+}
+
+/** Loops through each subdirectory in the schema candidates directory looking for a valid
     site wrapper schema, appending it to the returned list when found. */
 QList<QString> PSiteWrapper::schemaCandidateNames()
 {
@@ -132,7 +132,7 @@ QList<QString> PSiteWrapper::schemaCandidateNames()
 }
 
 /** @return the filename as engine->cacheDirectory()/name()/sitecache.xml */
-//  Note: Assumes that the url and other filename components have already been checked for illegal or
+//  Note: Assumes that the url and other filename components have already been cleaned and checked for illegal or
 //  strange (anti security) characters.
 QString PSiteWrapper::cacheFileName()
 {
