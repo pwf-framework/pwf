@@ -20,6 +20,7 @@ public:
     PWrapperData(PWrapper *wrapper, PWrapperElement *parent, PSchemaElement elementSchema);
     PWrapperData(PWrapper *wrapper, PWrapperElement &parent, const QString &elementName);
     ~PWrapperData();
+
     /** @return the data value type, e.g. IntType */
     PWrapperData::DataType dataType() const;
     /** The search to perform in order to get the data value, it's optional. */

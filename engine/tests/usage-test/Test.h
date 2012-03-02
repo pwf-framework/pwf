@@ -18,6 +18,7 @@ private slots:
     void testEngine();
     void testWrapper();
     void testSiteWrapper();
+    void testSchemaElement();
 
 private: /* Members */
     PEngine *engine;

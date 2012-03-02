@@ -69,7 +69,13 @@ QDomElement PSchemaElement::schemaElement() const
 
 bool PSchemaElement::isValid()
 {
-    // DUMMY (stub)
+    // a null schema element is valid because it's a placeholder
+    if (d->m_schemaElement.isNull()) {
+        return true;
+    }
+
+    // STUB
+    return true;
 }
 
 bool PSchemaElement::isNull() const

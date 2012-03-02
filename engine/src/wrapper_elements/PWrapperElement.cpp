@@ -22,13 +22,16 @@
 #include "PWrapper.h"
 #include "PFindSchemaElement.h"
 
+// TODO:
+// - constructor with detection: use reference & for parent... make this class shared or add a copy constructor?
+
 PWrapperElement::PWrapperElement(PWrapper *wrapper, PWrapperElement *parent, PSchemaElement elementSchema)
     : QObject(parent)
 {
     d = new PWrapperElementPrivate(this);
 
     d->m_wrapper = wrapper;
-    d->m_parentElement = parent;
+    setParentElement(parent);
     setSchema(elementSchema);
 }
 
@@ -38,8 +41,8 @@ PWrapperElement::PWrapperElement(PWrapper *wrapper, PWrapperElement &parent,
 {
     d = new PWrapperElementPrivate(this);
 
-    d->m_wrapper = wrapper;
-    d->m_parentElement = &parent;
+    setWrapper(wrapper);
+    setParentElement(&parent);
 
     // create the find element object
     d->m_schemaFinder = new PFindSchemaElement(parent, elementType, elementName, this);
@@ -54,12 +57,17 @@ PWrapperElement::~PWrapperElement()
     delete d;
 }
 
+void PWrapperElement::setWrapper(PWrapper *wrapper)
+{
+    d->m_wrapper = wrapper;
+}
 
 PWrapper * PWrapperElement::wrapper() const
 {
     return d->m_wrapper;
 }
 
+// TODO: test usage of operator = on PSchemaElement
 void PWrapperElement::setSchema(const PSchemaElement &elementSchema)
 {
     d->m_schema = elementSchema;
@@ -71,19 +79,29 @@ PSchemaElement PWrapperElement::schema() const
     return d->m_schema;
 }
 
+void PWrapperElement::setParentElement(PWrapperElement *parentElement)
+{
+    d->m_parentElement = parentElement;
+}
+
+PWrapperElement *PWrapperElement::parentElement() const
+{
+    return d->m_parentElement;
+}
+
 QString PWrapperElement::type() const
 {
-    if (d->m_schema.isNull()) {
+    if (d->m_schema.isNull() && d->m_schemaFinder != NULL) {
         return d->m_schemaFinder->elementType();
     }
 
     return d->m_schema.type();
 }
 
-// get it from the element schema or from the TFindElement
+// get it from the element schema or from the PFindSchemaElement
 QString PWrapperElement::name() const
 {
-    if (d->m_schema.isNull()) {
+    if (d->m_schema.isNull() && d->m_schemaFinder != NULL) {
         return d->m_schemaFinder->elementName();
     }
 

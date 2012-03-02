@@ -4,6 +4,7 @@
 #include <PSiteWrapper.h>
 #include <PPageWrapper.h>
 #include <QtNetwork/QNetworkAccessManager>
+#include <schema/PSchemaElement.h>
 
 QTEST_MAIN(Test)
 
@@ -47,10 +48,8 @@ void Test::testEngine()
     // multiple "/" in the string should have been removed
     engine->setSchemaCandidatesDirectory("some///foo////bar///");
     QCOMPARE(engine->schemaCandidatesDirectory(), QString("some/foo/bar"));
-    // BUG: allow windows root
-    engine->setSchemaCandidatesDirectory("c:\\\\test\\");
-    QCOMPARE(engine->schemaCandidatesDirectory(), QString("c:\\test"));
-    engine->setSchemaCandidatesDirectory("c://test/");
+    // allow windows root
+    engine->setSchemaCandidatesDirectory("c://test//");
     QCOMPARE(engine->schemaCandidatesDirectory(), QString("c:/test"));
 }
 
@@ -97,4 +96,15 @@ void Test::testSiteWrapper()
 {
     // the site wrapper is a top level wrapper => it has no parent
     QVERIFY(siteWrapper->parentWrapper() == NULL);
+}
+
+void Test::testSchemaElement()
+{
+    // a null schema element should have an empty type
+    PSchemaElement schemaElement;
+    QCOMPARE(schemaElement.type(), QString());
+
+    // test operator "="
+
+    // test explicitly shared memory
 }

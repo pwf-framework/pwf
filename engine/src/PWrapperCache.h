@@ -29,8 +29,10 @@ class PWrapperCache : public QDomDocument
 {
 public:
     PWrapperCache(PWrapper *wrapper, PWrapperCache *upperCache = 0);
+
     /** @return the cached schema name, empty if not exists. */
     QString schemaName();
+
     /** The element schema string representation is hashed and compared to the ones saved in the cache.
         @return empty string if not found. */
     QString elementValue(PSchemaElement elementSchema);
