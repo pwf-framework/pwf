@@ -30,7 +30,7 @@ PWrapperElement::PWrapperElement(PWrapper *wrapper, PWrapperElement *parent, PSc
 {
     d = new PWrapperElementPrivate(this);
 
-    d->m_wrapper = wrapper;
+    setWrapper(wrapper);
     setParentElement(parent);
     setSchema(elementSchema);
 }
