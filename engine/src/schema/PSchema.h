@@ -25,7 +25,7 @@
 
 class PSchemaPrivate;
 
-class PWFENGINESHARED_EXPORT PSchema : public PSchemaElement
+class PWFENGINESHARED_EXPORT PSchema
 {
 public:
     PSchema(const QString &name);
@@ -37,6 +37,8 @@ public:
     bool setDocument(const QString &fileName);
     //virtual bool isValid();
     QString directory() const;
+
+    PSchemaElement rootElement();
 
 private: /* Members */
     friend class PSchemaPrivate;

@@ -98,9 +98,8 @@ bool PSchema::setDocument(const QString &fileName)
         return false;
     }
 
-    if (!setSchemaElement(d->m_document.documentElement())) {
-        return false;
-    }
+    // set the root element of the schema as the document root
+    d->rootElement.setSchemaElement(d->m_document.documentElement());
 
     // set the schema directory
     if (!fileName.contains("/")) {
@@ -117,4 +116,11 @@ bool PSchema::setDocument(const QString &fileName)
 QString PSchema::directory() const
 {
     return d->m_directory;
+}
+
+/** @return the root element of the schema. The element is null if the schema document has not been
+            (successfully) set. */
+PSchemaElement PSchema::rootElement()
+{
+    return d->rootElement;
 }

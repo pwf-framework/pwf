@@ -22,6 +22,7 @@
 
 #include <QDomDocument>
 #include <QString>
+#include "PSchemaElement.h"
 
 class PSchema;
 
@@ -35,6 +36,7 @@ public:
     QDomDocument m_document;
     QString m_directory;
     QString m_name;
+    PSchemaElement rootElement;
 public:
     PSchema *q;
 };

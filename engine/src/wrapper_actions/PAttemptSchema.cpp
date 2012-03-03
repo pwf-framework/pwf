@@ -78,7 +78,7 @@ void PAttemptSchema::start()
     }
 
     // Check if the new schema match the wrapper
-    QList<PSchemaElement> schemaRequires = m_schema->requires();
+    QList<PSchemaElement> schemaRequires = m_schema->rootElement().requires();
     if (schemaRequires.isEmpty()) {
         // no main requires => success
         finish(PAction::StatusSuccess, true);
